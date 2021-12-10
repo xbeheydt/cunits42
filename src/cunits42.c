@@ -73,10 +73,11 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 	ret		= CUNITS42_OK;
 	while (tests[itest].state != CUNITS42_STOP)
 	{
-		dprintf(g_cfg.logfd, "\n%s : ", tests[itest].name);
+		dprintf(g_cfg.logfd, "%s : ", tests[itest].name);
 		if (ret == CUNITS42_OK && (run_test(tests[itest])) == CUNITS42_KO)
 			ret = CUNITS42_KO;
 		++itest;
+		printf("\n");
 	}
 	// TODO : print global result is only summary
 	return (ret);
