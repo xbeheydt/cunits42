@@ -14,9 +14,28 @@ static cunits42_t	test_strcmp(void)
 	return (CUNITS42_OK);
 }
 
+static cunits42_t	test_detailled(void)
+{
+	int	a;
+	int	b;
+
+	// test OK
+	a = 1;
+	b = 1;
+	UNIT_TEST_DETAILED(a, ==, b, "a=%d == b=%d", a, b);
+
+	// test KO
+	a = 1;
+	b = 2;
+	UNIT_TEST_DETAILED(a, ==, b, "a=%d != b=%d", a, b);
+
+	return (CUNITS42_OK);
+}
+
 static cunits42_test_t	tests[] = {
 	{ TEST_FCN(test_strcmp), NULL, NULL, CUNITS42_RUN },
-	{ TEST_FCN(test_strcmp), NULL, NULL, CUNITS42_SKIP },
+	{ TEST_FCN(test_detailled), NULL, NULL, CUNITS42_RUN },
+	//. TODO : Skiped test
 	CUNITS42_TEST_STOP
 };
 
