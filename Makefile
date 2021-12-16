@@ -4,14 +4,17 @@ LIBDIR			= ${CURDIR}/libs
 BUILDDIR		= ${CURDIR}/build
 EXAMPLESDIR		= ${CURDIR}/examples
 
+STATIC			= ${LIBDIR}/libcunits42.a
+SRCS			= ${SRCDIR}/cunits42.c
+OBJS			= $(subst ${SRCDIR}, ${BUILDDIR}, ${SRCS:.c=.o})
+
 CC				= gcc
 CFLAGS			= -Wall -Werror -Wextra -g3
-RM				= rm -rf
 IFLAGS			= -I${INCDIR} -I${SRCDIR}
 
-LIBCUNITS42			= libcunits42.a
-LIBCUNITS42_SRCS	= ${SRCDIR}/cunits42.c
-LIBCUNITS42_OBJS	= $(subst ${SRCDIR}, ${BUILDDIR}, ${LIBCUNITS42_SRCS:.c=.o})
+RM				= rm -rf
+
+all: ${STATIC}
 
 $(LIBDIR):
 	mkdir ${LIBDIR}
@@ -19,12 +22,14 @@ $(LIBDIR):
 $(BUILDDIR):
 	mkdir ${BUILDDIR}
 
-$(LIBCUNITS42_OBJS): $(BUILDDIR)
-	$(CC) ${CFLAGS} ${IFLAGS} -c ${LIBCUNITS42_SRCS} -o ${LIBCUNITS42_OBJS}
+$(OBJS): $(BUILDDIR)
+	$(CC) ${CFLAGS} ${IFLAGS} -c ${SRCS} -o ${OBJS}
 
-$(LIBCUNITS42): $(LIBCUNITS42_OBJS) $(LIBDIR)
-	ar rcs ${LIBDIR}/${LIBCUNITS42} ${LIBCUNITS42_OBJS}
-	ranlib ${LIBDIR}/${LIBCUNITS42}
+$(STATIC): $(OBJS) $(LIBDIR)
+	ar rcs ${STATIC} ${OBJS}
+	ranlib ${STATIC}
+
+libcunits.a: $(STATIC)
 
 clean:
 	$(RM) ${BUILDDIR}
@@ -32,8 +37,11 @@ clean:
 fclean: clean
 	$(RM) ${LIBDIR}
 
-examples: $(LIBCUNITS42)
-	$(CC) ${CFLAGS} ${IFLAGS} ${EXAMPLESDIR}/tests.c -L${LIBDIR} -lcunits42 -o ${BUILDDIR}/examples
-	exec ${BUILDDIR}/examples
+re: fclean all
 
-.PHONY: clean fclean examples
+examples: $(STATIC)
+	@$(CC) ${CFLAGS} -I${INCDIR} -L${LIBDIR} ${EXAMPLESDIR}/tests.c -o tmp_tests -lcunits42
+	@./tmp_tests
+	@$(RM) tmp_tests
+
+.PHONY: clean fclean examples re

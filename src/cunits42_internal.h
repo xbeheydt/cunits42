@@ -29,6 +29,7 @@
 # define ENDL			"\n"
 # define NOENDL			""
 # define BUF_MSG		100
+# define TMPFD			"/tmp/cunits42-catch"
 
 /* MACRO tools */
 #define VARSTR(var)		#var

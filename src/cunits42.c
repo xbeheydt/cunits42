@@ -2,9 +2,15 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
 
 #include "cunits42.h"
 #include "cunits42_internal.h"
+
+/* Globals */
+static int tmpstdout = -1;
 
 /* global configs */
 static	cunits42_cfg_t	g_cfg = CUNITS42_DEFAULT_CFG;
@@ -66,6 +72,27 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 	return (ret);
 }
 
+/* Utils functions */
+int	redirect_stdout(cunits42_state_t state)
+{
+	// TODO : handler error dup and dup2
+	static int	oldfd = -1;
+
+	if (state == CUNITS42_ENABLE && oldfd == -1)
+	{
+		oldfd = dup(STDOUT_FILENO);
+		tmpstdout = open(TMPFD, O_CREAT, O_RDWR);
+		return (dup2(tmpstdout, STDOUT_FILENO));
+	}
+	dup2(oldfd, STDOUT_FILENO);
+	close(tmpstdout);
+	tmpstdout = -1;
+	remove(TMPFD);
+	close(oldfd);
+	oldfd = -1;
+	return (oldfd);
+}
+
 /* API tests */
 cunits42_t	unit_test(bool condition, const char *fmt, ...)
 {
@@ -82,4 +109,24 @@ cunits42_t	unit_test(bool condition, const char *fmt, ...)
 		va_end(args);
 	}
 	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
+}
+
+cunits42_t	stdout_cmp(const char *s)
+{
+	size_t		bufsiz;
+	char		*buf;
+	cunits42_t	ret;
+
+	bufsiz = strlen(s);
+	ret = CUNITS42_KO;
+	buf = malloc((bufsiz + 1) * sizeof (char));
+	if (buf)
+	{
+		read(tmpstdout, buf, bufsiz);
+		fprintf(stderr, "tmpstdout = %d buff = %s", tmpstdout,  buf);
+		ret = (strcmp(s, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
+		free(buf);
+		buf = NULL;
+	}
+	return (ret);
 }

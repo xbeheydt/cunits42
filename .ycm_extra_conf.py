@@ -23,7 +23,6 @@ def Settings(**kwargs):
     return {
             'flags': [
                 '-Wall', '-Werror', '-Wextra', '-g3',
-                '-Iinclude', '-Isrc', '-Llibs',
-                '-lmcheck', '-ldl', '-lcunits42'
+                '-Iinclude', '-Isrc',
                 ]
             }
