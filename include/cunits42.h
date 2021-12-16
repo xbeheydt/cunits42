@@ -2,6 +2,7 @@
 # define CUNITS42_H
 
 # include <stdbool.h>
+# include <stdio.h>
 
 /* constantes values */
 typedef enum cunits42_e
@@ -48,7 +49,7 @@ cunits42_t	stdout_cmp(const char *s);
 # define	STDOUT_TEST(fcn, s) \
 	redirect_stdout(CUNITS42_ENABLE); \
 	fcn; \
-	stdout_cmp(s); \
-	redirect_stdout(CUNITS42_DISABLE);
+	redirect_stdout(CUNITS42_DISABLE); \
+	stdout_cmp(s);
 
 #endif /* CUNITS42_H */

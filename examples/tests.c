@@ -27,7 +27,7 @@ static cunits42_t	test_skipped(void)
 static cunits42_t	test_catch_stdout(void)
 {
 	STDOUT_TEST(printf("Ipsum %d\n", 42), "Ipsum 42\n");
-	//STDOUT_TEST(printf("Ipsum %d\n", 42), "Ipsum\n");
+	STDOUT_TEST(printf("Ipsum %d\n", 42), "Ipsum\n");
 	return (CUNITS42_OK);
 }
 
@@ -37,6 +37,10 @@ static cunits42_test_t	tests[] = {
 	{ TEST_FCN(test_catch_stdout), NULL, NULL, CUNITS42_RUN },
 	CUNITS42_TEST_STOP
 };
+
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
 
 int	main(int argc, const char *argv[])
 {

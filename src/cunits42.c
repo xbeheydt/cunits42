@@ -9,9 +9,6 @@
 #include "cunits42.h"
 #include "cunits42_internal.h"
 
-/* Globals */
-static int tmpstdout = -1;
-
 /* global configs */
 static	cunits42_cfg_t	g_cfg = CUNITS42_DEFAULT_CFG;
 
@@ -76,21 +73,23 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 int	redirect_stdout(cunits42_state_t state)
 {
 	// TODO : handler error dup and dup2
-	static int	oldfd = -1;
+	static int	saved_stdout = -1;
+	static int	logfile = -1;
 
-	if (state == CUNITS42_ENABLE && oldfd == -1)
+	if (state == CUNITS42_ENABLE && saved_stdout == -1)
 	{
-		oldfd = dup(STDOUT_FILENO);
-		tmpstdout = open(TMPFD, O_CREAT, O_RDWR);
-		return (dup2(tmpstdout, STDOUT_FILENO));
+		fflush(stdout);
+		saved_stdout = dup(STDOUT_FILENO);
+		logfile = open(TMPFD, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		return (dup2(logfile, STDOUT_FILENO));
 	}
-	dup2(oldfd, STDOUT_FILENO);
-	close(tmpstdout);
-	tmpstdout = -1;
-	remove(TMPFD);
-	close(oldfd);
-	oldfd = -1;
-	return (oldfd);
+	fflush(stdout);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(logfile);
+	logfile = -1;
+	close(saved_stdout);
+	saved_stdout = -1;
+	return (saved_stdout);
 }
 
 /* API tests */
@@ -116,17 +115,24 @@ cunits42_t	stdout_cmp(const char *s)
 	size_t		bufsiz;
 	char		*buf;
 	cunits42_t	ret;
+	int			logfile;
 
 	bufsiz = strlen(s);
 	ret = CUNITS42_KO;
 	buf = malloc((bufsiz + 1) * sizeof (char));
+	logfile = open(TMPFD, O_RDONLY);
 	if (buf)
 	{
-		read(tmpstdout, buf, bufsiz);
-		fprintf(stderr, "tmpstdout = %d buff = %s", tmpstdout,  buf);
+		read(logfile, buf, bufsiz);
 		ret = (strcmp(s, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
+		if (ret == CUNITS42_OK)
+			print_ok("", NOENDL);
+		else
+			print_ko("", NOENDL);
 		free(buf);
 		buf = NULL;
+		close(logfile);
+		remove(TMPFD);
 	}
 	return (ret);
 }
