@@ -7,20 +7,16 @@
 static cunits42_t	test_strcmp(void)
 {
 	// Test OK
-	UNIT_TEST(
-			strcmp("Hello", "Hello"), ==, strcmp("Hello", "Hello"),
-			"");
+	UNIT_TEST(strcmp("Hello", "Hello"), ==, strcmp("Hello", "Hello"));
 
 	// Test KO
-	UNIT_TEST(
-			strcmp("Hello", "Hello"), ==, strcmp("hello", "Hello"),
-			"hello != Hello");
+	UNIT_TEST(strcmp("Hello", "Hello"), ==, strcmp("hello", "Hello"));
 	return (CUNITS42_OK);
 }
 
 static cunits42_t	test_skipped(void)
 {
-	UNIT_TEST(1, !=, 2, "Skipped test !");
+	UNIT_TEST(1, !=, 2);
 	return (CUNITS42_OK);
 }
 
