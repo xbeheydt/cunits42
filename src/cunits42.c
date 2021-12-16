@@ -110,7 +110,7 @@ cunits42_t	unit_test(bool condition, const char *fmt, ...)
 	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
 }
 
-cunits42_t	stdout_cmp(const char *s)
+cunits42_t	stdout_cmp(const char *s, const char *msg)
 {
 	// TODO : split function with utils
 	size_t		bufsiz;
@@ -129,8 +129,8 @@ cunits42_t	stdout_cmp(const char *s)
 		ret = (strcmp(s, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
 		if (ret == CUNITS42_OK)
 			print_ok("", NOENDL);
-		else // TODO : add support printf value
-			print_ko("", NOENDL);
+		else
+			print_ko(msg, NOENDL);
 		free(buf);
 		buf = NULL;
 		close(logfile);
