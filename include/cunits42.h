@@ -45,11 +45,11 @@ cunits42_t	unit_test(bool condition, const char *fmt, ...);
 # define	UNIT_TEST(a, op, b, ...) \
 	unit_test(a op b, __VA_ARGS__);
 
-cunits42_t	stdout_cmp(const char *s);
-# define	STDOUT_TEST(fcn, s) \
+cunits42_t	stdout_cmp(const char *fmt, ...);
+# define	STDOUT_TEST(fcn, fmt, ...) \
 	redirect_stdout(CUNITS42_ENABLE); \
 	fcn; \
 	redirect_stdout(CUNITS42_DISABLE); \
-	stdout_cmp(s);
+	stdout_cmp(fmt, ##__VA_ARGS__);
 
 #endif /* CUNITS42_H */

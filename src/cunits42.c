@@ -42,7 +42,7 @@ static cunits42_t	run_test(cunits42_test_t test)
 			test.teardown();
 	}
 	else
-		print_skip("", ENDL);
+		print_skip("", NOENDL);
 	if (g_cfg.stop == CUNITS42_STOP && ret == CUNITS42_KO)
 		exit(ret); // TODO : make a cleaning function with atexit
 	return (ret);
@@ -110,27 +110,39 @@ cunits42_t	unit_test(bool condition, const char *fmt, ...)
 	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
 }
 
-cunits42_t	stdout_cmp(const char *s)
+cunits42_t	stdout_cmp(const char *fmt, ...)
 {
+	// TODO : split function with utils
 	size_t		bufsiz;
+	char		*test;
 	char		*buf;
 	cunits42_t	ret;
 	int			logfile;
+	int			devnull;
+	va_list		args;
 
-	bufsiz = strlen(s);
+	va_start(args, fmt);
+	devnull = open("/dev/null", O_WRONLY | O_APPEND);
+	bufsiz = vdprintf(devnull, fmt, args);
+	close(devnull);
 	ret = CUNITS42_KO;
 	buf = malloc((bufsiz + 1) * sizeof (char));
+	test = malloc((bufsiz + 1) * sizeof (char));
 	logfile = open(TMPFD, O_RDONLY);
-	if (buf)
+	if (buf && test)
 	{
 		read(logfile, buf, bufsiz);
-		ret = (strcmp(s, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
+		vsprintf(test, fmt, args);
+		ret = (strcmp(test, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
 		if (ret == CUNITS42_OK)
 			print_ok("", NOENDL);
-		else
+		else // TODO : add support printf value
 			print_ko("", NOENDL);
 		free(buf);
 		buf = NULL;
+		free(test);
+		test = NULL;
+		va_end(args);
 		close(logfile);
 		remove(TMPFD);
 	}
