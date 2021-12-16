@@ -42,7 +42,7 @@ static cunits42_t	run_test(cunits42_test_t test)
 			test.teardown();
 	}
 	else
-		print_skip("", NOENDL);
+		print_skip("Skipped test", NOENDL);
 	if (g_cfg.stop == CUNITS42_STOP && ret == CUNITS42_KO)
 		exit(ret); // TODO : make a cleaning function with atexit
 	return (ret);
@@ -93,20 +93,12 @@ int	redirect_stdout(cunits42_state_t state)
 }
 
 /* API tests */
-cunits42_t	unit_test(bool condition, const char *fmt, ...)
+cunits42_t	unit_test(bool condition, const char *msg)
 {
-	va_list	args;
-	char	s[BUF_MSG];
-
 	if (condition)
 		print_ok("", NOENDL);
 	else
-	{
-		va_start(args, fmt);
-		vsprintf(s, fmt, args);
-		print_ko(s, NOENDL);
-		va_end(args);
-	}
+		print_ko(msg, NOENDL);
 	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
 }
 
