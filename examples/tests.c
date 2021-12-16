@@ -38,10 +38,6 @@ static cunits42_test_t	tests[] = {
 	CUNITS42_TEST_STOP
 };
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
-
 int	main(int argc, const char *argv[])
 {
 	return (main_test(tests, argc, argv));
