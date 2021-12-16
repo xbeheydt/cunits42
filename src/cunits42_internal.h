@@ -26,12 +26,12 @@
 # define BG_WHITE		"\033[47m"
 
 /* constantes */
-# define ENDL		"\n"
-# define NOENDL		""
-# define BUF_MSG	100
+# define ENDL			"\n"
+# define NOENDL			""
+# define BUF_MSG		100
 
 /* MACRO tools */
-#define VARSTR(var)	#var
+#define VARSTR(var)		#var
 
 typedef struct cunits42_cfg_s
 {
