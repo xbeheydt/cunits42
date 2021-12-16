@@ -110,39 +110,29 @@ cunits42_t	unit_test(bool condition, const char *fmt, ...)
 	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
 }
 
-cunits42_t	stdout_cmp(const char *fmt, ...)
+cunits42_t	stdout_cmp(const char *s)
 {
 	// TODO : split function with utils
 	size_t		bufsiz;
-	char		*test;
 	char		*buf;
 	cunits42_t	ret;
 	int			logfile;
-	int			devnull;
-	va_list		args;
 
-	va_start(args, fmt);
-	devnull = open("/dev/null", O_WRONLY | O_APPEND);
-	bufsiz = vdprintf(devnull, fmt, args);
-	close(devnull);
+
 	ret = CUNITS42_KO;
+	bufsiz = strlen(s);
 	buf = malloc((bufsiz + 1) * sizeof (char));
-	test = malloc((bufsiz + 1) * sizeof (char));
 	logfile = open(TMPFD, O_RDONLY);
-	if (buf && test)
+	if (buf)
 	{
 		read(logfile, buf, bufsiz);
-		vsprintf(test, fmt, args);
-		ret = (strcmp(test, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
+		ret = (strcmp(s, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
 		if (ret == CUNITS42_OK)
 			print_ok("", NOENDL);
 		else // TODO : add support printf value
 			print_ko("", NOENDL);
 		free(buf);
 		buf = NULL;
-		free(test);
-		test = NULL;
-		va_end(args);
 		close(logfile);
 		remove(TMPFD);
 	}

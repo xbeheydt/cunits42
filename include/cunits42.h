@@ -41,15 +41,15 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[]);
 int			redirect_stdout(cunits42_state_t state);
 
 /* API tests */
-cunits42_t	unit_test(bool condition, const char *fmt, ...);
+cunits42_t	unit_test(bool condition, const char *s, ...);
 # define	UNIT_TEST(a, op, b, ...) \
 	unit_test(a op b, __VA_ARGS__);
 
-cunits42_t	stdout_cmp(const char *fmt, ...);
-# define	STDOUT_TEST(fcn, fmt, ...) \
+cunits42_t	stdout_cmp(const char *s);
+# define	STDOUT_TEST(fcn, str) \
 	redirect_stdout(CUNITS42_ENABLE); \
 	fcn; \
 	redirect_stdout(CUNITS42_DISABLE); \
-	stdout_cmp(fmt, ##__VA_ARGS__);
+	stdout_cmp(str);
 
 #endif /* CUNITS42_H */
