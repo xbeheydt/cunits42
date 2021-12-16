@@ -39,30 +39,13 @@ static cunits42_t	run_test(cunits42_test_t test)
 			test.teardown();
 	}
 	else
-		print_skip(test.name, ENDL);
+		print_skip("", ENDL);
 	if (g_cfg.stop == CUNITS42_STOP && ret == CUNITS42_KO)
 		exit(ret); // TODO : make a cleaning function with atexit
 	return (ret);
 }
 
 /* API functions */
-cunits42_t	unit_test(bool condition, const char *fmt, ...)
-{
-	va_list	args;
-	char	s[BUF_MSG];
-
-	if (condition)
-		print_ok("", NOENDL);
-	else
-	{
-		va_start(args, fmt);
-		vsprintf(s, fmt, args);
-		print_ko(s, NOENDL);
-		va_end(args);
-	}
-	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
-}
-
 cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 {
 	(void)argc; (void)argv; // TODO : implement argument parsing
@@ -81,4 +64,22 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 	}
 	// TODO : print global result is only summary
 	return (ret);
+}
+
+/* API tests */
+cunits42_t	unit_test(bool condition, const char *fmt, ...)
+{
+	va_list	args;
+	char	s[BUF_MSG];
+
+	if (condition)
+		print_ok("", NOENDL);
+	else
+	{
+		va_start(args, fmt);
+		vsprintf(s, fmt, args);
+		print_ko(s, NOENDL);
+		va_end(args);
+	}
+	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
 }
