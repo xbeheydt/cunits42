@@ -7,35 +7,34 @@
 static cunits42_t	test_strcmp(void)
 {
 	// Test OK
-	UNIT_TEST(strcmp("Hello", "Hello"), ==, strcmp("Hello", "Hello"));
+	UNIT_TEST(
+			strcmp("Hello", "Hello"), ==, strcmp("Hello", "Hello"),
+			"");
 
 	// Test KO
-	UNIT_TEST(strcmp("Hello", "Hello"), ==, strcmp("hello", "Hello"));
+	UNIT_TEST(
+			strcmp("Hello", "Hello"), ==, strcmp("hello", "Hello"),
+			"hello != Hello");
 	return (CUNITS42_OK);
 }
 
-static cunits42_t	test_detailled(void)
+static cunits42_t	test_skipped(void)
 {
-	int	a;
-	int	b;
+	UNIT_TEST(1, !=, 2, "Skipped test !");
+	return (CUNITS42_OK);
+}
 
-	// test OK
-	a = 1;
-	b = 1;
-	UNIT_TEST_DETAILED(a, ==, b, "a=%d == b=%d", a, b);
-
-	// test KO
-	a = 1;
-	b = 2;
-	UNIT_TEST_DETAILED(a, ==, b, "a=%d != b=%d", a, b);
-
+static cunits42_t	test_catch_stdout(void)
+{
+	STDOUT_TEST(printf("Ipsum %d\n", 42), "Ipsum 42\n");
+	STDOUT_TEST(printf("Ipsum %d\n", 42), "Ipsum\n");
 	return (CUNITS42_OK);
 }
 
 static cunits42_test_t	tests[] = {
 	{ TEST_FCN(test_strcmp), NULL, NULL, CUNITS42_RUN },
-	{ TEST_FCN(test_detailled), NULL, NULL, CUNITS42_RUN },
-	//. TODO : Skiped test
+	{ TEST_FCN(test_skipped), NULL, NULL, CUNITS42_SKIP },
+	{ TEST_FCN(test_catch_stdout), NULL, NULL, CUNITS42_RUN },
 	CUNITS42_TEST_STOP
 };
 

@@ -1,6 +1,7 @@
-#include <stdio.h>
 #include "memtrace.h"
 #include "memtrace_internal.h"
+
+#include <stdio.h>
 
 void	trace_mem_get_stat(void)
 {
