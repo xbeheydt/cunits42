@@ -60,3 +60,6 @@ dkms.conf
 
 build/
 libs/
+*.log
+.vs/
+.vscode/
