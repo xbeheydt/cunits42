@@ -36,12 +36,14 @@ clean:
 
 fclean: clean
 	$(RM) ${LIBDIR}
+	$(RM) a.out
 
 re: fclean all
 
 examples: $(STATIC)
-	@$(CC) ${CFLAGS} -I${INCDIR} -L${LIBDIR} ${EXAMPLESDIR}/tests.c -o tmp_tests -lcunits42
-	@./tmp_tests
-	@$(RM) tmp_tests
+	@$(CC) ${CFLAGS} -I${INCDIR} -L${LIBDIR} ${EXAMPLESDIR}/tests.c -o a.out -lcunits42
+
+run-examples: examples
+	@./a.out
 
 .PHONY: clean fclean examples re
