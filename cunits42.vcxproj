@@ -24,11 +24,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
-    <RemoteRootDir>~/sources</RemoteRootDir>
+    <RemoteRootDir>~/sources/gnl/deps</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
+    <RemoteRootDir>~/sources/gnl/deps</RemoteRootDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -36,19 +37,22 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakeIncludeSearchPath>$(SolutionDir)include/</NMakeIncludeSearchPath>
-    <RemoteBuildCommandLine>cd ~/sources/$(MSBuildProjectName); make examples</RemoteBuildCommandLine>
-    <RemoteReBuildCommandLine>cd ~/sources/$(MSBuildProjectName); make re</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>cd ~/sources; rm -rf $(MSBuildProjectName)</RemoteCleanCommandLine>
+    <NMakeIncludeSearchPath>$(ProjectDir)include/</NMakeIncludeSearchPath>
+    <RemoteBuildCommandLine>make -C $(RemoteDeployDir) examples</RemoteBuildCommandLine>
+    <RemoteReBuildCommandLine>make -C $(RemoteDeployDir) re</RemoteReBuildCommandLine>
+    <RemoteCleanCommandLine>rm -rf $(RemoteDeployDir)</RemoteCleanCommandLine>
     <OutDir>$(ProjectDir)build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\obj\$(Platform)\$(Configuration)\</IntDir>
+    <RemoteCCompileToolExe>gcc</RemoteCCompileToolExe>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <RemoteBuildCommandLine>cd ~/sources/$(MSBuildProjectName); make all</RemoteBuildCommandLine>
-    <RemoteReBuildCommandLine>cd ~/sources/$(MSBuildProjectName); make re</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>cd ~/sources; rm -rf $(MSBuildProjectName)</RemoteCleanCommandLine>
+    <RemoteBuildCommandLine>make -C $(RemoteDeployDir) all</RemoteBuildCommandLine>
+    <RemoteReBuildCommandLine>make -C $(RemoteDeployDir) re</RemoteReBuildCommandLine>
+    <RemoteCleanCommandLine>rm -rf $(RemoteDeployDir)</RemoteCleanCommandLine>
     <OutDir>$(ProjectDir)build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\obj\$(Platform)\$(Configuration)\</IntDir>
+    <NMakeIncludeSearchPath>$(ProjectDir)include/</NMakeIncludeSearchPath>
+    <RemoteCCompileToolExe>gcc</RemoteCCompileToolExe>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="examples\tests.c" />

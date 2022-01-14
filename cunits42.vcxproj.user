@@ -4,7 +4,7 @@
     <RemoteDebuggerCommandArguments>
     </RemoteDebuggerCommandArguments>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
-    <RemoteDebuggerCommand>~/sources/$(MSBuildProjectName)/a.out</RemoteDebuggerCommand>
+    <RemoteDebuggerCommand>$(RemoteDeployDir)/a.out</RemoteDebuggerCommand>
     <RemoteDebuggingMode>gdbserver</RemoteDebuggingMode>
   </PropertyGroup>
 </Project>
