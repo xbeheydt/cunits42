@@ -46,4 +46,4 @@ examples: $(STATIC)
 run-examples: examples
 	@./a.out
 
-.PHONY: clean fclean examples re
+.PHONY: clean fclean examples re run-examples
