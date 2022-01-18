@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "cunits42.h"
+#include "memcheck.h"
 
 static cunits42_t	test_strcmp(void)
 {
@@ -27,10 +28,28 @@ static cunits42_t	test_catch_stdout(void)
 	return (CUNITS42_OK);
 }
 
+static cunits42_t	test_memcheck(void)
+{
+	int *a_int = malloc(5 * sizeof (int));
+	int	i;
+
+	i = -1;
+
+	while (i < 7)
+	{
+		a_int[i] = i;
+		UNIT_TEST(i, == , a_int[i]);
+		++i;
+	}
+	free(a_int);
+	return (CUNITS42_OK);
+}
+
 static cunits42_test_t	tests[] = {
 	{ TEST_FCN(test_strcmp), NULL, NULL, CUNITS42_RUN },
 	{ TEST_FCN(test_skipped), NULL, NULL, CUNITS42_SKIP },
 	{ TEST_FCN(test_catch_stdout), NULL, NULL, CUNITS42_RUN },
+	{ TEST_FCN(test_memcheck), NULL, NULL, CUNITS42_RUN },
 	CUNITS42_TEST_STOP
 };
 
