@@ -1,35 +1,41 @@
-INCDIR			= ${CURDIR}/include
-SRCDIR			= ${CURDIR}/src
-LIBDIR			= ${CURDIR}/libs
-BUILDDIR		= ${CURDIR}/build
-EXAMPLESDIR		= ${CURDIR}/examples
+SRCDIR		= ${CURDIR}/src
+BUILDDIR	= ${CURDIR}/build
+LIBDIR		= ${CURDIR}/lib
+EXAMPLESDIR	= ${CURDIR}/examples
 
-STATIC			= ${LIBDIR}/libcunits42.a
-SRCS			= ${SRCDIR}/cunits42.c
-OBJS			= $(subst ${SRCDIR}, ${BUILDDIR}, ${SRCS:.c=.o})
+TARGET		= ${LIBDIR}/libcunits42.a
 
-CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -g3
-IFLAGS			= -I${INCDIR} -I${SRCDIR}
+SRCS		= ${SRCDIR}/cunits42.c \
+			  ${SRCDIR}/memcheck.c \
+			  ${SRCDIR}/memcheck_api.c
+OBJS		= $(subst ${SRCDIR},${BUILDDIR}, ${SRCS:.c=.o})
 
-RM				= rm -rf
+CC			= gcc
+CFLAGS		= -Wall -Werror -Wextra -g3
+IFLAGS		= -Iinclude -Isrc
 
-all: ${STATIC}
+ifeq ($(OS),Windos_NT)
+	RM		= rm -Force
+	MKDIR	= mkdir
+	SEP		= \\
+else
+	RM		= rm -rf
+	MKDIR	= mkdir -p
+	SEP		= /
+endif
 
-$(LIBDIR):
-	mkdir ${LIBDIR}
+all: directories ${TARGET}
 
-$(BUILDDIR):
-	mkdir ${BUILDDIR}
+directories:
+	$(MKDIR) ${BUILDDIR}
+	$(MKDIR) ${LIBDIR}
 
-$(OBJS): $(BUILDDIR)
-	$(CC) ${CFLAGS} ${IFLAGS} -c ${SRCS} -o ${OBJS}
+${BUILDDIR}/%.o: ${SRCDIR}/%.c
+	$(CC) ${CFLAGS} ${IFLAGS} -o $(subst /,${SEP},$@) -c $(subst /,${SEP},$<)
 
-$(STATIC): $(OBJS) $(LIBDIR)
-	ar rcs ${STATIC} ${OBJS}
-	ranlib ${STATIC}
-
-libcunits.a: $(STATIC)
+${TARGET}: directories ${OBJS}
+	ar rcs ${TARGET} ${OBJS}
+	ranlib ${TARGET}
 
 clean:
 	$(RM) ${BUILDDIR}
@@ -40,10 +46,10 @@ fclean: clean
 
 re: fclean all
 
-examples: $(STATIC)
-	@$(CC) ${CFLAGS} -I${INCDIR} -L${LIBDIR} ${EXAMPLESDIR}/tests.c -o a.out -lcunits42
+examples: $(TARGET)
+	@$(CC) ${CFLAGS} ${IFLAGS} -L${LIBDIR} ${EXAMPLESDIR}/tests.c -o a.out -lcunits42
 
 run-examples: examples
 	@./a.out
 
-.PHONY: clean fclean examples re run-examples
+.PHONY: clean fclean examples re run-examples directories build

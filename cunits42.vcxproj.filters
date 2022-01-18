@@ -15,30 +15,27 @@
     <ClCompile Include="src\cunits42.c">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\memtrace.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\memtrace_api.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="examples\tests.c">
       <Filter>examples</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memcheck.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memcheck_api.c">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cunits42_internal.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\memtrace_internal.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="include\cunits42.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\memtrace.h">
-      <Filter>include</Filter>
+    <ClInclude Include="src\memcheck_internal.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="include\perftrace.h">
+    <ClInclude Include="include\memcheck.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

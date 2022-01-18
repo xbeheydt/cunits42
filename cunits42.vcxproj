@@ -57,15 +57,14 @@
   <ItemGroup>
     <ClCompile Include="examples\tests.c" />
     <ClCompile Include="src\cunits42.c" />
-    <ClCompile Include="src\memtrace.c" />
-    <ClCompile Include="src\memtrace_api.c" />
+    <ClCompile Include="src\memcheck.c" />
+    <ClCompile Include="src\memcheck_api.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\cunits42.h" />
-    <ClInclude Include="include\memtrace.h" />
-    <ClInclude Include="include\perftrace.h" />
+    <ClInclude Include="include\memcheck.h" />
     <ClInclude Include="src\cunits42_internal.h" />
-    <ClInclude Include="src\memtrace_internal.h" />
+    <ClInclude Include="src\memcheck_internal.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="examples\Makefile" />
