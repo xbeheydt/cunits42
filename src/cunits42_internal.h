@@ -49,4 +49,9 @@ typedef struct cunits42_cfg_s
 		CUNITS42_CONTINUE		\
 	}
 
+/* GUI - print functions */
+void	print_skip(const char *s, const char *endl);
+void	print_ok(const char *s, const char *endl);
+void	print_ko(const char *s, const char *endl);
+
 #endif /* CUNITS42_INTERNAL_H */
