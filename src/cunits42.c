@@ -59,6 +59,7 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 	itest	= 0;
 	ret		= CUNITS42_OK;
 	// TODO: add memcheck in config
+	mtrace();
 	mcheck(abortfn_enable);
 	while (tests[itest].state != CUNITS42_STOP)
 	{
