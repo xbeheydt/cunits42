@@ -1,4 +1,6 @@
-#include <mcheck.h>
+#ifdef __linux__
+# include <mcheck.h>
+#endif
 
 #include "memcheck.h"
 #include "memcheck_internal.h"
@@ -6,6 +8,7 @@
 
 
 /* Internal functions */
+#ifdef __linux__
 void    abortfn_enable(enum mcheck_status status)
 {
 	switch (status)
@@ -29,3 +32,4 @@ void    abortfn_enable(enum mcheck_status status)
 		break;
 	}
 }
+#endif

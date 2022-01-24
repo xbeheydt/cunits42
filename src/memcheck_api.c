@@ -1,4 +1,3 @@
-#include <mcheck.h>
 #include <stdio.h>
 
 #include "memcheck.h"

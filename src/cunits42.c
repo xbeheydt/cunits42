@@ -41,6 +41,11 @@ static cunits42_t	run_test(cunits42_test_t test)
 		ret = test.fcn();
 		if (test.teardown)
 			test.teardown();
+		if (ret == (cunits42_t)CUNITS42_SKIP) // TODO : improve condition
+		{
+			print_skip("Test are skipped by condition.", NOENDL);
+			ret = CUNITS42_OK;
+		}
 	}
 	else
 		print_skip("Skipped test", NOENDL);
@@ -59,8 +64,10 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[])
 	itest	= 0;
 	ret		= CUNITS42_OK;
 	// TODO: add memcheck in config
+# ifdef __linux__
 	mtrace();
 	mcheck(abortfn_enable);
+# endif
 	while (tests[itest].state != CUNITS42_STOP)
 	{
 		dprintf(g_cfg.logfd, "%s : ", tests[itest].name);
