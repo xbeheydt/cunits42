@@ -124,12 +124,12 @@ cunits42_t	stdout_cmp(const char *s, const char *msg)
 
 	ret = CUNITS42_KO;
 	bufsiz = strlen(s);
-	buf = malloc((bufsiz + 1) * sizeof (char));
+	buf = malloc((bufsiz) * sizeof (char));
 	logfile = open(TMPFD, O_RDONLY);
 	if (buf)
 	{
 		read(logfile, buf, bufsiz);
-		ret = (strcmp(s, buf) == 0) ? CUNITS42_OK : CUNITS42_KO; // FIXME : memcmp ?
+		ret = (memcmp(s, buf, bufsiz) == 0) ? CUNITS42_OK : CUNITS42_KO;
 		if (ret == CUNITS42_OK)
 			print_ok("", NOENDL);
 		else
