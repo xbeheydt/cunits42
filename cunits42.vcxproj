@@ -5,8 +5,8 @@
       <Configuration>Debug Bonus</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="Debug Mandatory|x64">
+      <Configuration>Debug Mandatory</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
@@ -25,31 +25,31 @@
     <LinuxProjectType>{FC1A4D80-50E9-41DA-9192-61C0DBAA00D2}</LinuxProjectType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mandatory|x64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
-    <RemoteRootDir>/tmp/gnl/deps</RemoteRootDir>
+    <RemoteRootDir>/tmp/$(SolutionName)/deps</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
-    <RemoteRootDir>/tmp/gnl/deps</RemoteRootDir>
+    <RemoteRootDir>/tmp/${SolutionDir}/deps</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Bonus|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
-    <RemoteRootDir>/tmp/gnl/deps</RemoteRootDir>
+    <RemoteRootDir>/tmp/${SolutionDir}/deps</RemoteRootDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mandatory|x64'">
     <NMakeIncludeSearchPath>$(ProjectDir)include/</NMakeIncludeSearchPath>
     <RemoteBuildCommandLine>make -C $(RemoteDeployDir) examples</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>make -C $(RemoteDeployDir) re</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>rm -rf $(RemoteDeployDir)</RemoteCleanCommandLine>
+    <RemoteCleanCommandLine>make -C $(RemoteDeployDir) fclean</RemoteCleanCommandLine>
     <OutDir>$(ProjectDir)build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\obj\$(Platform)\$(Configuration)\</IntDir>
     <RemoteCCompileToolExe>gcc</RemoteCCompileToolExe>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <RemoteBuildCommandLine>make -C $(RemoteDeployDir) all</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>make -C $(RemoteDeployDir) re</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>rm -rf $(RemoteDeployDir)</RemoteCleanCommandLine>
+    <RemoteCleanCommandLine>make -C $(RemoteDeployDir) fclean</RemoteCleanCommandLine>
     <OutDir>$(ProjectDir)build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\obj\$(Platform)\$(Configuration)\</IntDir>
     <NMakeIncludeSearchPath>$(ProjectDir)include/</NMakeIncludeSearchPath>
@@ -66,7 +66,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Bonus|x64'">
     <RemoteBuildCommandLine>make -C $(RemoteDeployDir) all</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>make -C $(RemoteDeployDir) re</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>rm -rf $(RemoteDeployDir)</RemoteCleanCommandLine>
+    <RemoteCleanCommandLine>make -C $(RemoteDeployDir) fclean</RemoteCleanCommandLine>
     <OutDir>$(ProjectDir)build\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)build\obj\$(Platform)\$(Configuration)\</IntDir>
     <NMakeIncludeSearchPath>$(ProjectDir)include/</NMakeIncludeSearchPath>
