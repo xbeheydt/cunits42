@@ -1,55 +1,56 @@
+PROJECT		= cunits42
+
 SRCDIR		= ${CURDIR}/src
+HEADERDIR	= ${CURDIR}/include/${PROJECT}
+
 BUILDDIR	= ${CURDIR}/build
-LIBDIR		= ${CURDIR}/lib
-EXAMPLESDIR	= ${CURDIR}/examples
+INCLUDEDIR	= ${BUILDDIR}/include
+LIBDIR		= ${BUILDDIR}/lib
+BINDIR		= ${BUILDDIR}/bin
 
-TARGET		= ${LIBDIR}/libcunits42.a
+LIB			= ${LIBDIR}/lib${PROJECT}.a
 
-SRCS		= ${SRCDIR}/cunits42.c \
-			  ${SRCDIR}/memcheck.c \
-			  ${SRCDIR}/memcheck_api.c
-OBJS		= $(subst ${SRCDIR},${BUILDDIR}, ${SRCS:.c=.o})
+SRCS		= ${SRCDIR}/cunits42.c
+OBJS		= $(subst ${SRCDIR},${BUILDDIR}/src, ${SRCS:.c=.o})
 
 CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra -g3
-IFLAGS		= -Iinclude -Isrc
+IFLAGS		= -Iinclude/${PROJECT} -Isrc
 
-ifeq ($(OS),Windos_NT)
-	RM		= rm -Force
-	MKDIR	= mkdir
-	SEP		= \\
-else
-	RM		= rm -rf
-	MKDIR	= mkdir -p
-	SEP		= /
-endif
+RM		= rm -rf
+MKDIR	= mkdir -p
 
-all: directories ${TARGET}
+.PHONY:	directories clean fclean example  install
+
+all: directories ${LIB}
 
 directories:
-	$(MKDIR) ${BUILDDIR}
-	$(MKDIR) ${LIBDIR}
+	@$(MKDIR) ${BUILDDIR}
+	@$(MKDIR) ${BUILDDIR}/src
+	@$(MKDIR) ${INCLUDEDIR}
+	@$(MKDIR) ${LIBDIR}
+	@$(MKDIR) ${BINDIR}
 
-${BUILDDIR}/%.o: ${SRCDIR}/%.c
-	$(CC) ${CFLAGS} ${IFLAGS} -o $(subst /,${SEP},$@) -c $(subst /,${SEP},$<)
+${BUILDDIR}/src/%.o: ${SRCDIR}/%.c
+	$(CC) ${CFLAGS} ${IFLAGS} -o $@ -c $<
 
-${TARGET}: directories ${OBJS}
-	ar rcs ${TARGET} ${OBJS}
-	ranlib ${TARGET}
+$(LIB): directories ${OBJS}
+	cp ${HEADERDIR}/*.h ${INCLUDEDIR}
+	ar rcs $@ ${OBJS}
+	ranlib $@
 
 clean:
-	$(RM) ${BUILDDIR}
+	$(RM) ${OBJS}
 
 fclean: clean
-	$(RM) ${LIBDIR}
-	$(RM) a.out
+	$(RM) ${BUILDDIR}
 
 re: fclean all
 
-examples: $(TARGET)
-	@$(CC) ${CFLAGS} ${IFLAGS} -L${LIBDIR} ${EXAMPLESDIR}/tests.c -o a.out -lcunits42
+test: $(LIB)
+	$(CC) ${CFLAGS} ${IFLAGS} -L${LIBDIR} ${CURDIR}/example/example.c \
+		-o ${BINDIR}/example -l${PROJECT}
 
-run-examples: examples
-	@./a.out
-
-.PHONY: clean fclean examples re run-examples directories build
+install:
+	install -D ${BUILDDIR}/include/*.h ${CURDIR}/include
+	install -D ${BUILDDIR}/lib/* ${CURDIR}/lib
