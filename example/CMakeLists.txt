@@ -2,20 +2,18 @@
 # include source and define project specific logic here.
 #
 
-if(RUN_EXAMPLE)
-	set(SOURCE_FILES "${PROJECT_SOURCE_DIR}/example/example.c")
-	add_executable(example ${SOURCE_FILES})
-	target_link_libraries(example PRIVATE cunits42)
+set(SOURCE_FILES "${PROJECT_SOURCE_DIR}/example/example.c")
+add_executable(example ${SOURCE_FILES})
+target_link_libraries(example PRIVATE cunits42)
 
-	# Instal target
-	install(TARGETS example DESTINATION bin)
+# Instal target
+install(TARGETS example DESTINATION bin)
 
-	# IDE tree view
-	source_group(
-		"Source_Files"
-		FILES ${SOURCE_FILES}
-	)
+# IDE tree view
+source_group(
+	"Source_Files"
+	FILES ${SOURCE_FILES}
+)
 
-	enable_testing()
-	add_test(NAME Run COMMAND example)
-endif()
+enable_testing()
+add_test(NAME Run COMMAND example)
