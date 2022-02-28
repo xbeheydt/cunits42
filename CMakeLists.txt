@@ -8,6 +8,10 @@ project (
 	VERSION 0.1.0
 )
 
+option(RUN_EXAMPLE "Run example" ON)
+
 # Include sub-projects.
 add_subdirectory("src")
-add_subdirectory("example")
+if(RUN_EXAMPLE)
+	add_subdirectory("example")
+endif()
