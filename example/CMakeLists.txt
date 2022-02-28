@@ -14,3 +14,6 @@ source_group(
 	"Source_Files"
 	FILES ${SOURCE_FILES}
 )
+
+enable_testing()
+add_test(NAME Run COMMAND example)

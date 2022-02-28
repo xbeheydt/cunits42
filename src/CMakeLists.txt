@@ -10,7 +10,7 @@ set(SOURCE_FILES "${cunits42_SOURCE_DIR}/src/cunits42.c")
 # Add source to this project's library.
 add_library(
 	cunits42
-	SHARED
+	STATIC
 	${SOURCE_FILES}
 	${HEADER_FILES}
 	${HEADER_INTERNAL_FILES}
