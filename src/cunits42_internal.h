@@ -1,8 +1,11 @@
 #ifndef CUNITS42_INTERNAL_H
 # define CUNITS42_INTERNAL_H
+
 # include <unistd.h>
 
-# include "cunits42.h"
+/* Commons macros */
+# define SPACE			" "
+# define ENDL			"\n"
 
 /* Colors */
 # define RESET_COLOR	"\033[0m"
@@ -25,18 +28,13 @@
 # define BG_CYAN		"\033[46m"
 # define BG_WHITE		"\033[47m"
 
-/* constantes */
-# define ENDL			"\n"
-# define NOENDL			""
-# define BUF_MSG		100
-# define TMPFD			"/tmp/cunits42-catch"
-
 /* MACRO tools */
-#define VARSTR(var)		#var
+# define VARSTR(var)	#var
 
+/* Test configs */
 typedef struct cunits42_cfg_s
 {
-	cunits42_t			*(*fcns)(void);
+	cunits42_t			*(*testFcns)(void);
 	cunits42_state_t	state;
 	int					logfd;
 	cunits42_state_t	stop;
