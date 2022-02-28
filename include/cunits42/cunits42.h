@@ -25,10 +25,10 @@ typedef enum cunits42_state_e
 /* Struct to config a test */
 typedef struct cunits42_test_s
 {
-	const char		*testName;
-	cunits42_t		(*testFcn)(void);
-	void			(*setupFcn)(void);
-	void			(*teardownFcn)(void);
+	const char			*testName;
+	cunits42_t			(*testFcn)(void);
+	void				(*setupFcn)(void);
+	void				(*teardownFcn)(void);
 	cunits42_state_t	state;
 }	cunits42_test_t;
 
@@ -43,6 +43,5 @@ cunits42_t	main_test(cunits42_test_t *tests, int argc, const char *argv[]);
 cunits42_t	unit_test(bool condition, const char *msg);
 # define	UNIT_TEST(a, op, b) \
 	unit_test(a op b, "'"#a" "#op" "#b"'");
-
 
 #endif /* CUNITS42_H */

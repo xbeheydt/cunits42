@@ -77,4 +77,3 @@ cunits42_t	unit_test(bool condition, const char *msg)
 		print_ko(msg, SPACE);
 	return ((condition) ? CUNITS42_OK : CUNITS42_KO);
 }
-
