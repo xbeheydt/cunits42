@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 project (
-	"cuntis42"
+	"cunits42"
 	VERSION 0.1.0
 )
 enable_testing()
@@ -33,10 +33,10 @@ set(
 )
 
 # Create static lib target
-add_library(libft STATIC ${HEADER_FILES} ${SOURCE_FILES})
+add_library(lib STATIC ${HEADER_FILES} ${SOURCE_FILES})
 target_link_libraries(libft PRIVATE libft)
 target_include_directories(
-	libft
+	lib
 	PUBLIC
 	"${INCLUDES}"
 )
