@@ -13,7 +13,7 @@
 #include ".tests.h"
 
 /* define unit test functions HERE */
-int	test_your_fcn(void *)
+int	test_your_fcn(void *args)
 {
 	return (KO);
 }
